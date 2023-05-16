@@ -11,3 +11,64 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+}
+
+.titulo {
+  color: aqua;
+}
+.botao-adicionar {
+  background-color: orange;
+  border-radius: 10px;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  margin-top: 5px;
+}
+.botao-remover {
+  background-color: red;
+  border-radius: 10px;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  cursor: pointer;
+  align-self: flex-end;
+  justify-self: flex-start;
+  
+}
+
+.botao-adicionar:hover,
+.botao-remover:hover {
+  background-color: black;
+}
+.linha-verde-claro {
+  background-color: #d4f0dc;
+}
+
+.linha-verde-mais-claro {
+  background-color: #c2edd5;
+}
+.linha-conteudo {
+  width: 500px;
+  margin: 0 auto;
+}
+.botao-remover-end {
+  justify-content: end;
+}
+.botao-remover-esquerda {
+  align-self: flex-end;
+  justify-self: flex-start;
+}
+
+
+
+
+
+
+
