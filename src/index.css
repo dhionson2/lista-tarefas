@@ -65,6 +65,19 @@ code {
   align-self: flex-end;
   justify-self: flex-start;
 }
+.borda-preta {
+  border: 10px solid black;
+  padding: 10px;
+}
+.titulo-borda {
+  background-color: lightgray;
+  border: 1px solid gray;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+
+
 
 
 
