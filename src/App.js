@@ -6,12 +6,17 @@ function ListaDeTarefas() {
 
   const adicionarTarefa = () => {
     if (novaTarefa !== '') {
-      setTarefas([...tarefas, { texto: novaTarefa, concluida: false }]);
+      setTarefas([...tarefas, { texto: novaTarefa, concluida: false, subitens: [] }]);
       setNovaTarefa('');
     }
   };
 
+  const adicionarSubitem = (index) => {
+    setEditandoSubitem(true);
+  };
+
   const removerTarefa = (index) => {
+    setEditandoSubitem(false);
     const novasTarefas = [...tarefas];
     novasTarefas.splice(index, 1);
     setTarefas(novasTarefas);
@@ -22,6 +27,26 @@ function ListaDeTarefas() {
     novasTarefas[index].concluida = !novasTarefas[index].concluida;
     setTarefas(novasTarefas);
   };
+
+  const [editandoSubitem, setEditandoSubitem] = useState(false);
+  const [novoSubitem, setNovoSubitem] = useState('');
+
+  const adicionarNovoSubitem = (index) => {
+    const novasTarefas = [...tarefas];
+    novasTarefas[index].subitens.push({ texto: novoSubitem });
+    setTarefas(novasTarefas);
+    setEditandoSubitem(false);
+    setNovoSubitem('');
+  };
+
+  const cancelarEdicaoSubitem = () => {
+    setEditandoSubitem(false);
+    setNovoSubitem('');
+  };
+
+  
+  
+
 
   return (
     <div className="container">
@@ -47,24 +72,59 @@ function ListaDeTarefas() {
             </thead>
             <tbody>
               {tarefas.map((tarefa, index) => (
-                <tr key={index} className={index % 2 === 0 ? "linha-verde-claro" : "linha-verde-mais-claro"}>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={tarefa.concluida}
-                      onChange={() => handleConcluirTarefa(index)}
-                      className="checkbox-concluir"
-                    />
-                    <span className={tarefa.concluida ? "tarefa-concluida" : ""} style={{ marginLeft: '20px' }}>{tarefa.texto}</span>
-                  </td>
-                  <td>
-                    {!tarefa.concluida && (
-                      <button onClick={() => removerTarefa(index)} className="botao-remover">
-                        Remover
-                      </button>
-                    )}
-                  </td>
-                </tr>
+                <React.Fragment key={index}>
+                  <tr className={index % 2 === 0 ? "linha-verde-claro" : "linha-verde-mais-claro"}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={tarefa.concluida}
+                        onChange={() => handleConcluirTarefa(index)}
+                        className="checkbox-concluir"
+                      />
+                      <span className={tarefa.concluida ? "tarefa-concluida" : ""} style={{ marginLeft: '20px' }}>
+                        {tarefa.texto}
+                      </span>
+                    </td>
+                    <td>
+                      {!tarefa.concluida && (
+                        <>
+                          <button onClick={() => adicionarSubitem(index)} className="botao-adicionar-subitem">
+                            Adicionar Subitem
+                          </button>
+                          <button onClick={() => removerTarefa(index)} className="botao-remover">
+                            Remover
+                          </button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                  {tarefa.subitens.map((subitem, subindex) => (
+                    <tr key={subindex} className="subitem">
+                      <td colSpan="2">
+                        <span>{subitem.texto}</span>
+                      </td>
+                    </tr>
+                  ))}
+                  {editandoSubitem && index === tarefas.length - 1 && (
+                    <tr>
+                      <td colSpan="2">
+                        <input
+                          type="text"
+                          value={novoSubitem}
+                          onChange={(e) => setNovoSubitem(e.target.value)}
+                          placeholder="Digite um novo subitem"
+                          className="input-subitem"
+                        />
+                        <button onClick={() => adicionarNovoSubitem(index)} className="botao-adicionar-subitem">
+                          Adicionar
+                        </button>
+                        <button onClick={cancelarEdicaoSubitem} className="botao-cancelar-subitem">
+                          Cancelar
+                        </button>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
               ))}
             </tbody>
           </table>
@@ -72,6 +132,9 @@ function ListaDeTarefas() {
       </div>
     </div>
   );
+  
+  
+  
 }
 
 export default ListaDeTarefas;
